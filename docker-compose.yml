@@ -24,9 +24,9 @@ services:
     image: mariadb:latest
     restart: always
     volumes:
-      - './mysql:/var/lib/mysql'
+      - './.docker/mysql:/var/lib/mysql'
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      - MARIADB_ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD}
     networks:
       - docker
 
@@ -46,7 +46,8 @@ services:
 
   php:
     container_name: ${APP_NAME}-php
-    image: php:7.4-fpm
+    build:
+      context: './provisioning/docker/php'
     restart: on-failure
     volumes:
       - './${APP_NAME}:/var/www/html'
